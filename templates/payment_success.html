@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success">
+        <h4 class="alert-heading">Payment Successful!</h4>
+        <p>Your booking has been confirmed. You can view your booking details in your bookings page.</p>
+        <hr>
+        <p class="mb-0">
+            <a href="{{ url_for('my_bookings') }}" class="btn btn-primary">View My Bookings</a>
+            <a href="{{ url_for('services') }}" class="btn btn-secondary">Book Another Service</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

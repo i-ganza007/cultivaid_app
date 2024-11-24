@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+
+{% block scripts %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// Initialize Stripe outside any function
+const stripe = Stripe('{{ config.STRIPE_PUBLIC_KEY }}');
+
+async function proceedToPayment(bookingId, serviceName = '', price = '') {
+    try {
+        // Show loading state
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        // Create payment session
+        const response = await fetch(`/create-payment-session/${bookingId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ service_name: serviceName, price: price })
+        });
+
+        const data = await response.json();
+
+        if (data.sessionId) {
+            // Redirect to Stripe checkout
+            const result = await stripe.redirectToCheckout({
+                sessionId: data.sessionId
+            });
+
+            if (result.error) {
+                alert(result.error.message);
+            }
+        } else {
+            alert('Something went wrong. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    } finally {
+        // Reset button state
+        button.disabled = false;
+        button.innerHTML = originalText;
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{% if is_admin %}All Bookings{% else %}My Bookings{% endif %}</h2>
+
+    {% if bookings %}
+        {% if is_admin %}
+        <!-- Admin View with Filtering and Search -->
+        <div class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-select" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by user or service...">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        {% if is_admin %}
+                        <th>User</th>
+                        <th>Contact</th>
+                        {% endif %}
+                        <th>Service</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Payment Status</th>
+                        <th>Booked On</th>
+                        {% if is_admin %}
+                        <th>Actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr class="booking-row" 
+                        data-status="{{ booking.status }}"
+                        data-search="{{ booking.user.name.lower() }} {{ booking.service.name.lower() }}">
+                        {% if is_admin %}
+                        <td>{{ booking.user.name }}</td>
+                        <td>
+                            <small>
+                                {{ booking.user.email }}<br>
+                                {{ booking.user.phone_number }}
+                            </small>
+                        </td>
+                        {% endif %}
+                        <td>{{ booking.service.name }}</td>
+                        <td>{{ booking.booking_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if booking.status == 'confirmed' 
+                                                else 'warning' if booking.status == 'pending'
+                                                else 'danger' }}">
+                                {{ booking.status.title() }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if booking.payment %}
+                                <span class="badge bg-{{ 'success' if booking.payment.status == 'completed'
+                                                    else 'warning' if booking.payment.status == 'pending'
+                                                    else 'danger' }}">
+                                    {{ booking.payment.status.title() }}
+                                </span>
+                                {% if booking.payment.status != 'completed' %}
+                                    <button type="button" 
+                                            class="btn btn-sm btn-success ms-2 pay-now-btn" 
+                                            data-booking-id="{{ booking.id }}">
+                                        <i class="fas fa-credit-card"></i> Pay Now
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge bg-secondary">No Payment</span>
+                                <button type="button" 
+                                        class="btn btn-sm btn-success ms-2 pay-now-btn" 
+                                        data-booking-id="{{ booking.id }}">
+                                    <i class="fas fa-credit-card"></i> Pay Now
+                                </button>
+                            {% endif %}
+                        </td>
+                        <td>{{ booking.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        {% if is_admin %}
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                    Update Status
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ url_for('update_booking_status', booking_id=booking.id, status='confirmed') }}">Confirm</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('update_booking_status', booking_id=booking.id, status='cancelled') }}">Cancel</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            {% if is_admin %}
+            No bookings have been made yet.
+            {% else %}
+            You haven't made any bookings yet.
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- Add this at the bottom of your template, before the closing content block -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Stripe
+    const stripe = Stripe('{{ config.STRIPE_PUBLIC_KEY }}');
+    
+    // Add click handlers to all pay now buttons
+    const payButtons = document.querySelectorAll('.pay-now-btn');
+    payButtons.forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // Disable button and show loading state
+            const btn = this;
+            btn.disabled = true;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            try {
+                // Get booking ID from data attribute
+                const bookingId = btn.dataset.bookingId;
+                console.log('Processing payment for booking:', bookingId); // Debug log
+                
+                // Create payment session
+                const response = await fetch(`/create-payment-session/${bookingId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                console.log('Payment session response:', data); // Debug log
+                
+                if (data.sessionId) {
+                    // Redirect to Stripe checkout
+                    const result = await stripe.redirectToCheckout({
+                        sessionId: data.sessionId
+                    });
+                    
+                    if (result.error) {
+                        console.error('Stripe error:', result.error);
+                        alert(result.error.message);
+                    }
+                } else {
+                    alert('Failed to create payment session. Please try again.');
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert('An error occurred. Please try again.');
+            } finally {
+                // Reset button state
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

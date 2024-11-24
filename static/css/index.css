@@ -1,0 +1,659 @@
+* {
+    font-family: 'Kanit', sans-serif;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Pushes the title and button to the ends */
+    align-items: center; /* Centers items vertically */
+    width: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: fixed;
+    padding: 15px 50px; /* Adjusted padding for better spacing */
+}
+
+/* Make the links container take up the available space, pushing the links to the center */
+.links {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+/* Add some space between each link */
+.links a {
+    margin: 0 20px; /* Adjusted margin for better spacing */
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.links a:hover {
+    color: #28a745; /* Hover effect for links */
+}
+
+/* Title (header) style */
+#title {
+    font-size: 26px; /* Adjusted font size */
+    margin: 0;
+    font-weight: 600;
+    text-decoration: none;
+    color: rgb(165, 233, 97);
+}
+
+/* Button style */
+.btn {
+    margin-left: auto;
+    border-radius: 30px;
+    font-weight: 500;
+}
+
+/* Breadcrumbs section styles */
+.breadcrumbs {
+    padding: 20px 50px;
+    background-color: rgb(196, 234, 196);
+}
+
+.breadcrumbs h3 {
+    margin: 0;
+    font-weight: 500;
+    color: #28a745;
+}
+
+.breadcrumbs h2 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.breadcrumbs img {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+#beekeeper{
+    height: 12rem;
+    width: 9rem;
+    position: relative;
+    left: 45rem;
+    top: 1.8rem;
+}
+#normal{
+    height: 12rem;
+    width: 9.9rem;
+    position: relative;
+    left: 49rem;
+    top: 1.8rem;
+}
+#home-services{
+    font-size: 13px;
+}
+#services-title{
+    font-size: 4rem;
+}
+.titles{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    top: 89px;
+}
+
+/* Card styles */
+.card {
+    background-color: #D2B29B; 
+    border-radius: 15px; /* Rounded corners for the card */
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+/* Image container */
+.image-container {
+    width: 80px; /* Set a fixed size for the container */
+    height: 80px; /* Set a fixed size for the container */
+    border-radius: 50%; /* Makes the container round */
+    overflow: hidden; /* Ensures the image is clipped to fit the circle */
+    margin: 0 auto 15px; /* Center the container and add some space below */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image styling */
+.image-container img {
+    width: 100%; /* Make the image cover the container */
+    height: 100%; /* Ensure the image fits within the container */
+    object-fit: cover; /* Ensures the image is scaled properly to fit the circle */
+}
+
+/* Card title and text styles */
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 0.875rem;
+    margin-bottom: 15px;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Align card and content left */
+.agric-services {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3,auto);
+    grid-template-rows:  auto;
+    grid-gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.card {
+    margin: 0; /* Remove any margin */
+    width: 18rem; /* Maintain card width */
+}
+
+.card-body {
+    text-align: left; /* Left align the card content */
+}
+#ideas{
+    width: 320px;
+    height: 320px;
+}
+.idea-image{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    right:150px;
+}
+
+.process-titles{
+    position: relative;
+    top: 160px;
+    left: 180px;
+}
+.process-titles > h3{
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+.process-titles > h2{
+    font-size: 3rem;
+}
+
+.process-indicators > ol > li{
+    max-width: 300px;
+}
+
+/* Remove default numbering */
+
+.process-indicators{
+    position: relative;
+    left: 11rem;
+    bottom: 6rem;
+}
+.process-indicators ol {
+    list-style-type: none;  /* Disable default ordered list numbering */
+    padding-left: 0;  /* Remove padding */
+    margin: 0;  /* Remove any margin */
+    counter-reset: section;  /* Initialize the counter */
+}
+
+/* Each list item (li) styling */
+.process-indicators ol li {
+    position: relative;  /* For positioning the image before the text */
+    padding-left: 45px;  /* Space for the custom image */
+    margin-bottom: 20px;  /* Add space between steps */
+}
+
+/* Pseudo-element to insert the custom image before the text */
+.process-indicators ol li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);  /* Vertically center the image */
+    width: 40px;  /* Width of the image */
+    height: 40px;  /* Height of the image */
+    background-size: cover;  /* Make the image cover the box */
+    background-repeat: no-repeat;  /* Ensure the image doesn't repeat */
+}
+
+/* Custom images for each step in the process */
+.process-indicators ol li:nth-child(1)::before {
+    background-image: url(/static/one-numeral.png);  /* Image for Step 1 */
+}
+
+.process-indicators ol li:nth-child(2)::before {
+    background-image: url(/static/two-numeral.png);  /* Image for Step 2 */
+}
+
+.process-indicators ol li:nth-child(3)::before {
+    background-image: url(/static/three-numeral.png);  /* Image for Step 3 */
+}
+
+.process-indicators ol li:nth-child(4)::before {
+    background-image: url(/static/four-numeral.png);  /* Image for Step 4 */
+}
+
+/* Style the inner content of each step */
+.process-indicators ol li div {
+    font-size: 1rem;
+    color: #333;
+}
+
+.process-indicators ol li h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.process-indicators ol li p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.footer{
+    background-color: #84e69b;
+    padding: 40px 0px;
+}
+
+.footer-container{
+    display: flex;
+    align-items: center;
+    gap: 75px;
+    justify-content: center;
+}
+
+.company{
+    display: flex;
+    flex-direction: column;
+}
+
+.company > h2{
+    font-size: 1.5rem;
+}
+
+.company > a{
+    font-size: 0.8rem;
+}
+
+
+.description > p{
+    max-width: 300px;
+    font-size: 0.8rem;
+}
+.description > h2{
+    font-size: 1.5rem;
+}
+
+.phone{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.location{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.mail{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+
+.footer-links{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-decoration: none;
+}
+
+.footer-links > h2{
+    font-size: 1.5rem;
+}
+
+.footer-links > a {
+    font-size: 0.8rem;
+}
+
+.contact > h2{
+    font-size: 1.5rem;
+    margin-top: 1px;
+}
+
+.phone > p , .mail > p , .location > p{
+    font-size: 0.8rem;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.service-btn.border-animation:hover::before {
+    width: 100%;
+}
+
+.service-btn.border-animation {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2ECC71;
+    background: transparent;
+    border: 2px solid #2ECC71;
+    border-radius: 50px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin: 0 auto; /* Center the button horizontally */
+}
+
+.service-btn.border-animation::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 0;
+height: 100%;
+background: #2ECC71;
+z-index: -1;
+transition: width 0.3s ease;
+}
+
+.service-btn.border-animation:hover {
+color: white;
+}
+
+.rentals-sect {
+    display: grid;
+    grid-template-columns: repeat(3, 18rem); /* Exactly 3 columns */
+    gap: 2rem;
+    padding: 20px;
+    justify-content: center; /* Center the grid */
+    max-width: 1200px; /* Maximum width of the section */
+    margin: 0 auto; /* Center the section */
+}
+
+.title-sect{
+    padding-top: 87px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.add-new-services-button {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: #2ECC71;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: none;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.add-new-services-button:hover {
+    transform: scale(1.1);
+    background-color: #27ae60;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Remove the ::before pseudo-element and use direct content instead */
+.add-new-services-button {
+    font-family: Arial, sans-serif;
+    line-height: 3.5rem;
+    content: '+';
+}
+.card-actions form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.card-actions button {
+    margin: 0 5px;
+}
+.equipment-cards {
+    width: 100%;
+}
+
+.card {
+    width: 18rem !important;
+    height: 100%;
+    margin: 0 auto !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds subtle shadow */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    gap: 1rem; /* Space between buttons */
+}
+
+.card-actions button {
+    flex: 1;
+}
+
+.card-actions form {
+    flex: 1;
+    margin: 0;
+}
+
+.card-actions form button {
+    width: 100%;
+}
+
+/* Make all cards the same height */
+.card-text {
+    flex-grow: 1;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+/* Center the icon */
+.image-container {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .rentals-sect {
+        grid-template-columns: repeat(2, 18rem);
+    }
+}
+
+@media (max-width: 800px) {
+    .rentals-sect {
+        grid-template-columns: 18rem;
+    }
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.user-info:hover {
+    background-color: rgba(83, 254, 18, 0.1);
+}
+
+.user-info i {
+    color: #53fe12;
+    font-size: 1.2rem;
+}
+
+.username {
+    font-weight: 500;
+    color: #333;
+}
+
+.service-btn {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.service-btn {
+    width: 12rem;
+    height: auto;
+}
+
+.service-btn .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: #82CE34;
+    border-radius: 1.625rem;
+}
+
+.service-btn .circle .icon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+}
+
+.service-btn .circle .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.625rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+}
+
+.service-btn .circle .icon.arrow::before {
+    position: absolute;
+    content: "";
+    top: -0.29rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #fff;
+    border-right: 0.125rem solid #fff;
+    transform: rotate(45deg);
+}
+
+.service-btn .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1rem;
+    color: #82CE34;
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.service-btn:hover .circle {
+    width: 100%;
+}
+
+.service-btn:hover .circle .icon.arrow {
+    background: #fff;
+    transform: translate(1rem, 0);
+}
+
+.service-btn:hover .button-text {
+    color: #fff;
+}
+
+.profile{
+    margin-right: 30px;
+    padding-top:20px ;
+    margin-bottom: 18px;
+}
+
+.service-preview {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.service-preview h5 {
+    color: #0d6efd;
+    margin-bottom: 0.5rem;
+}
+
+.service-preview .text-muted {
+    margin-bottom: 1rem;
+}
+
+
+
+ 
+
+
